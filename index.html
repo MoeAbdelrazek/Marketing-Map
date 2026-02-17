@@ -7,7 +7,6 @@
   <meta name="description" content="Elite Consultant marketing modules. Select services, view full scope, and generate a proposal-ready outline." />
 
   <style>
-    /* Optional web fonts (still 1 file: index.html) */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cinzel:wght@500;600;700&family=Cinzel+Decorative:wght@700&display=swap');
 
     :root{
@@ -23,8 +22,6 @@
       --shadow2:0 14px 34px rgba(0,0,0,.35);
       --r16:16px;
       --r20:20px;
-
-      /* Wider so cards breathe more */
       --max:1480px;
       --gap:20px;
       --drawerW:520px;
@@ -87,7 +84,7 @@
       .brand{justify-self:center}
     }
 
-    /* Logo container: supports new logo shapes and keeps it premium */
+    /* UPDATED: logo is fully circular (fills frame), not a square inside */
     .brandMark{
       width:54px; height:54px;
       border-radius:999px;
@@ -95,16 +92,17 @@
       overflow:hidden;
       flex:0 0 auto;
       background: rgba(0,0,0,.22);
-      display:flex; align-items:center; justify-content:center;
-      padding:6px; /* makes non-square logos look clean */
     }
     .brandMark img{
       width:100%;
       height:100%;
-      object-fit:contain; /* important for new logo file */
       display:block;
+      object-fit:cover;          /* fills the circle */
+      border-radius:999px;       /* ensures the image itself is circular */
+      transform: scale(1.06);    /* subtle zoom to avoid any edge gaps */
       filter: drop-shadow(0 6px 14px rgba(0,0,0,.35));
     }
+
     .brandText{line-height:1}
     .brandName{
       font-family: Cinzel, ui-serif, Georgia, "Times New Roman", serif;
@@ -119,7 +117,6 @@
       color:var(--muted2);
     }
 
-    /* CENTERED MOTTO: clearer and more readable */
     .mottoWrap{
       justify-self:center;
       display:flex;
@@ -141,7 +138,7 @@
       border: 1px solid rgba(191,166,106,.18);
       box-shadow: 0 10px 30px rgba(0,0,0,.35);
       max-width: 980px;
-      white-space: normal; /* no ellipsis */
+      white-space: normal;
     }
     @media (max-width: 980px){
       .motto{
@@ -167,9 +164,7 @@
       padding:36px 22px 70px;
     }
 
-    .hero{
-      padding:18px 0 10px;
-    }
+    .hero{padding:18px 0 10px}
     .heroTitle{
       margin:0;
       font-family: Cinzel, ui-serif, Georgia, "Times New Roman", serif;
@@ -216,7 +211,6 @@
       opacity:.65;
     }
 
-    /* Card grid: consistent columns and more breathing room */
     .grid{
       margin-top:18px;
       display:grid;
@@ -224,12 +218,8 @@
       gap: var(--gap);
       align-items: stretch;
     }
-    @media (max-width: 1180px){
-      .grid{grid-template-columns: repeat(2, minmax(0, 1fr))}
-    }
-    @media (max-width: 720px){
-      .grid{grid-template-columns: 1fr}
-    }
+    @media (max-width: 1180px){ .grid{grid-template-columns: repeat(2, minmax(0, 1fr))} }
+    @media (max-width: 720px){ .grid{grid-template-columns: 1fr} }
 
     .card{
       position:relative;
@@ -240,8 +230,6 @@
       padding:18px 18px 16px;
       transition: transform .22s ease, border-color .22s ease, background .22s ease;
       overflow:hidden;
-
-      /* makes every card the same height and pins buttons */
       min-height: 328px;
       display:flex;
       flex-direction:column;
@@ -274,10 +262,7 @@
       letter-spacing:.02em;
       font-weight:700;
     }
-    .tags{
-      margin-top:10px;
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
+    .tags{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
     .tag{
       font-size:11px;
       letter-spacing:.10em;
@@ -294,15 +279,10 @@
       color:var(--muted);
       font-size:13.5px;
       line-height:1.8;
-      min-height: 88px; /* keeps text block consistent */
+      min-height: 88px;
     }
 
-    .divider{
-      margin:14px 0 10px;
-      height:1px;
-      background: rgba(255,255,255,.08);
-    }
-
+    .divider{margin:14px 0 10px; height:1px; background: rgba(255,255,255,.08)}
     .counts{
       display:flex; gap:16px; align-items:center;
       color:var(--muted2);
@@ -311,11 +291,8 @@
       margin-bottom:12px;
       flex-wrap:wrap;
     }
-    .counts span{
-      display:inline-flex; gap:8px; align-items:center;
-    }
+    .counts span{display:inline-flex; gap:8px; align-items:center}
 
-    /* CTA alignment: always perfect, no ups no downs */
     .actionsWrap{ margin-top:auto; }
     .actions{
       display:grid;
@@ -336,7 +313,6 @@
       cursor:pointer;
       transition: transform .18s ease, border-color .18s ease, background .18s ease;
       white-space:nowrap;
-
       display:flex;
       align-items:center;
       justify-content:center;
@@ -351,17 +327,13 @@
       color: #15161b;
       background: linear-gradient(180deg, rgba(234,217,179,.88), rgba(191,166,106,.88));
     }
-    .btnPrimary:hover{
-      border-color: rgba(191,166,106,.55);
-      transform: translateY(-1px);
-    }
+    .btnPrimary:hover{border-color: rgba(191,166,106,.55); transform: translateY(-1px)}
     .btnSelected{
       border-color: rgba(191,166,106,.45);
       color: #15161b;
       background: linear-gradient(180deg, rgba(234,217,179,.80), rgba(191,166,106,.80));
     }
 
-    /* Your Scope section under cards */
     .scopeSection{ margin-top:26px; }
     .scope{
       width:100%;
@@ -383,12 +355,7 @@
       letter-spacing:.02em;
       display:flex; gap:10px; align-items:center;
     }
-    .scopeSub{
-      margin:6px 0 0;
-      color:var(--muted2);
-      font-size:12px;
-      line-height:1.7;
-    }
+    .scopeSub{margin:6px 0 0; color:var(--muted2); font-size:12px; line-height:1.7}
     .scopeBody{
       padding:12px 12px 14px;
       display:grid;
@@ -397,9 +364,7 @@
       max-height: 48vh;
       overflow:auto;
     }
-    @media (max-width: 980px){
-      .scopeBody{grid-template-columns: 1fr}
-    }
+    @media (max-width: 980px){ .scopeBody{grid-template-columns: 1fr} }
 
     .scopeItem{
       display:flex; align-items:center; justify-content:space-between; gap:10px;
@@ -408,11 +373,7 @@
       border:1px solid rgba(255,255,255,.08);
       background: rgba(255,255,255,.03);
     }
-    .scopeItemName{
-      font-size:12.5px;
-      color: rgba(233,227,214,.88);
-      line-height:1.35;
-    }
+    .scopeItemName{font-size:12.5px; color: rgba(233,227,214,.88); line-height:1.35}
     .scopeRemove{
       width:28px; height:28px;
       border-radius:10px;
@@ -462,7 +423,6 @@
       border-color: rgba(191,166,106,.55);
     }
 
-    /* Drawer */
     .backdrop{
       position:fixed; inset:0;
       background: rgba(0,0,0,.62);
@@ -471,10 +431,7 @@
       transition: opacity .22s ease;
       z-index:80;
     }
-    .backdrop.open{
-      opacity:1;
-      pointer-events:auto;
-    }
+    .backdrop.open{opacity:1; pointer-events:auto}
 
     .drawer{
       position:fixed;
@@ -523,10 +480,7 @@
       background: rgba(255,255,255,.05);
     }
 
-    .drawerBody{
-      padding:16px 16px 0;
-      overflow:auto;
-    }
+    .drawerBody{padding:16px 16px 0; overflow:auto}
     .drawerTitle{
       margin:10px 0 0;
       font-family: Cinzel, ui-serif, Georgia, "Times New Roman", serif;
@@ -536,13 +490,7 @@
       font-weight:700;
       line-height:1.1;
     }
-    .drawerLead{
-      margin:10px 0 0;
-      color:var(--muted);
-      line-height:1.85;
-      font-size:13.5px;
-    }
-
+    .drawerLead{margin:10px 0 0; color:var(--muted); line-height:1.85; font-size:13.5px}
     .sectionLabel{
       margin:18px 0 10px;
       color: rgba(233,227,214,.82);
@@ -550,11 +498,7 @@
       letter-spacing:.02em;
       display:flex; gap:10px; align-items:center;
     }
-    .list{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+    .list{display:flex; flex-direction:column; gap:10px}
     .row{
       display:flex; align-items:center; justify-content:space-between; gap:10px;
       padding:12px 12px;
@@ -562,10 +506,7 @@
       border:1px solid rgba(255,255,255,.08);
       background: rgba(255,255,255,.03);
     }
-    .rowLeft{
-      display:flex; gap:10px; align-items:flex-start;
-      min-width:0;
-    }
+    .rowLeft{display:flex; gap:10px; align-items:flex-start; min-width:0}
     .rowText{
       color: rgba(233,227,214,.88);
       font-size:13px;
@@ -600,10 +541,7 @@
       letter-spacing:.02em;
       transition: transform .18s ease, border-color .18s ease;
     }
-    .drawerCTA:hover{
-      transform: translateY(-1px);
-      border-color: rgba(191,166,106,.55);
-    }
+    .drawerCTA:hover{transform: translateY(-1px); border-color: rgba(191,166,106,.55)}
 
     .scopeBody::-webkit-scrollbar,
     .drawerBody::-webkit-scrollbar{width:10px}
@@ -734,225 +672,75 @@
   </aside>
 
   <script>
-    /* Robust logo loader (supports renamed logo file without changing code) */
     (function(){
       const img = document.getElementById("logoImg");
-      const candidates = [
-        "logo.png",
-        "logo.webp",
-        "logo.svg",
-        "logo.jpg",
-        "logo.jpeg",
-        "logo_small.png",
-        "logo_small2.png"
-      ];
+      const candidates = ["logo.png","logo.webp","logo.svg","logo.jpg","logo.jpeg","logo_small.png","logo_small2.png"];
       let i = 0;
-      const tryNext = () => {
-        i += 1;
-        if(i >= candidates.length) return;
-        img.src = candidates[i];
-      };
+      const tryNext = () => { i += 1; if(i >= candidates.length) return; img.src = candidates[i]; };
       img.onerror = tryNext;
       img.src = candidates[0];
     })();
 
     const MODULES = [
-      {
-        id: 1,
-        name: "Discovery & Governance",
+      { id: 1, name: "Discovery & Governance",
         provides: "Align stakeholders, clarify scope and success metrics, and establish governance (cadence, documentation, risk and change control).",
-        tags: ["DISCOVERY", "STRATEGY"],
-        must: [
-          "Client intake & brief analysis",
-          "Stakeholder interview",
-          "Kickoff meeting prep & run",
-          "Project plan/workback update",
-          "Weekly status meeting",
-          "Client communications & status updates",
-          "Asset management & documentation",
-          "Risk register + change control"
-        ],
-        optional: [
-          "KPI definition & measurement plan",
-          "Channel audit",
-          "Content audit"
-        ]
+        tags: ["DISCOVERY","STRATEGY"],
+        must: ["Client intake & brief analysis","Stakeholder interview","Kickoff meeting prep & run","Project plan/workback update","Weekly status meeting","Client communications & status updates","Asset management & documentation","Risk register + change control"],
+        optional: ["KPI definition & measurement plan","Channel audit","Content audit"]
       },
-      {
-        id: 2,
-        name: "Research & Insights (Market + Competitors)",
+      { id: 2, name: "Research & Insights (Market + Competitors)",
         provides: "Produce evidence-based insights on the market, competitors, channels and existing assets to inform strategy and execution.",
-        tags: ["STRATEGY", "DISCOVERY"],
-        must: [
-          "Market research (KSA)",
-          "Competitor analysis",
-          "Insights & findings summary",
-          "Channel audit",
-          "Content audit",
-          "Market gap & opportunity sizing"
-        ],
-        optional: [
-          "Audience/persona research",
-          "Segmentation & targeting matrix",
-          "KPI definition & measurement plan"
-        ]
+        tags: ["STRATEGY","DISCOVERY"],
+        must: ["Market research (KSA)","Competitor analysis","Insights & findings summary","Channel audit","Content audit","Market gap & opportunity sizing"],
+        optional: ["Audience/persona research","Segmentation & targeting matrix","KPI definition & measurement plan"]
       },
-      {
-        id: 3,
-        name: "Audience, Segmentation & Positioning",
+      { id: 3, name: "Audience, Segmentation & Positioning",
         provides: "Define who we target, why we win, and how the offer is packaged and communicated (personas, targeting logic, positioning and offer architecture).",
         tags: ["STRATEGY"],
-        must: [
-          "Audience/persona research",
-          "Segmentation & targeting matrix",
-          "Positioning statement and messaging pillars",
-          "Offer architecture and value proposition"
-        ],
-        optional: [
-          "Market gap & opportunity sizing",
-          "KPI definition & measurement plan",
-          "Channel audit"
-        ]
+        must: ["Audience/persona research","Segmentation & targeting matrix","Positioning statement and messaging pillars","Offer architecture and value proposition"],
+        optional: ["Market gap & opportunity sizing","KPI definition & measurement plan","Channel audit"]
       },
-      {
-        id: 4,
-        name: "Strategy & Planning (Goals → Channels → Execution Plan)",
+      { id: 4, name: "Strategy & Planning (Goals → Channels → Execution Plan)",
         provides: "Translate insights into a practical plan: clear KPIs, channel and campaign approach, content plan, and an execution-ready roadmap.",
         tags: ["STRATEGY"],
-        must: [
-          "KPI definition & measurement plan",
-          "Channel strategy and prioritization",
-          "Campaign plan and funnel mapping",
-          "Content plan (pillars and cadence)",
-          "Creative direction and briefs",
-          "Budget framework and allocation logic",
-          "Tracking requirements and measurement setup plan",
-          "Execution roadmap (workback and milestones)"
-        ],
-        optional: [
-          "Go-to-market launch plan",
-          "Budget and forecast sensitivity scenarios",
-          "Stakeholder workshop session"
-        ]
+        must: ["KPI definition & measurement plan","Channel strategy and prioritization","Campaign plan and funnel mapping","Content plan (pillars and cadence)","Creative direction and briefs","Budget framework and allocation logic","Tracking requirements and measurement setup plan","Execution roadmap (workback and milestones)"],
+        optional: ["Go-to-market launch plan","Budget and forecast sensitivity scenarios","Stakeholder workshop session"]
       },
-      {
-        id: 5,
-        name: "Content & Creative Production",
+      { id: 5, name: "Content & Creative Production",
         provides: "Produce high-quality creative assets (design, copy, video) with briefs, QA, and platform-ready exports, optimized for performance and consistency.",
-        tags: ["CONTENT", "WEB"],
-        must: [
-          "Creative brief creation",
-          "Static post design (template based)",
-          "Static post design from scratch",
-          "Carousel post design",
-          "Design resize/adaptation per platform",
-          "English copywriting",
-          "Arabic copywriting/adaptation",
-          "Bilingual adaptation",
-          "Caption copywriting",
-          "Short-form video concept ideation",
-          "Script writing (short video)",
-          "Storyboard creation",
-          "Sound & music selection",
-          "Video editing (15-30s)",
-          "Motion graphics & effects",
-          "Captions & subtitles",
-          "Export & format versions",
-          "Publish workflow management",
-          "QA & scheduling (static posts)",
-          "Content refresh/update",
-          "Internal QA review pass",
-          "Creative adaptation for ads"
-        ],
-        optional: [
-          "SEO brief for writers",
-          "On-page edits (titles/meta/H1/H2 and internal links)",
-          "Content repurposing plan"
-        ]
+        tags: ["CONTENT","WEB"],
+        must: ["Creative brief creation","Static post design (template based)","Static post design from scratch","Carousel post design","Design resize/adaptation per platform","English copywriting","Arabic copywriting/adaptation","Bilingual adaptation","Caption copywriting","Short-form video concept ideation","Script writing (short video)","Storyboard creation","Sound & music selection","Video editing (15-30s)","Motion graphics & effects","Captions & subtitles","Export & format versions","Publish workflow management","QA & scheduling (static posts)","Content refresh/update","Internal QA review pass","Creative adaptation for ads"],
+        optional: ["SEO brief for writers","On-page edits (titles/meta/H1/H2 and internal links)","Content repurposing plan"]
       },
-      {
-        id: 6,
-        name: "Social & Community Management",
+      { id: 6, name: "Social & Community Management",
         provides: "Ensure consistent brand interactions and fast issue handling through templates, escalation rules, and ongoing community responses.",
-        tags: ["COMMUNITY", "CONTENT"],
-        must: [
-          "Community response management (comments and inbox triage)",
-          "Response templates and tone guidelines",
-          "Escalation rules and SLA handling",
-          "Weekly community insights summary"
-        ],
-        optional: [
-          "Crisis response playbook",
-          "Social listening keywords setup"
-        ]
+        tags: ["COMMUNITY","CONTENT"],
+        must: ["Community response management (comments and inbox triage)","Response templates and tone guidelines","Escalation rules and SLA handling","Weekly community insights summary"],
+        optional: ["Crisis response playbook","Social listening keywords setup"]
       },
-      {
-        id: 7,
-        name: "Paid Campaign Execution (Setup → Optimize → Report)",
+      { id: 7, name: "Paid Campaign Execution (Setup → Optimize → Report)",
         provides: "Launch and run paid campaigns end-to-end: platform setup, build, QA, optimization, budget management, and performance reporting.",
-        tags: ["PAID", "ANALYTICS"],
-        must: [
-          "Campaign setup and structure (accounts, objectives, naming)",
-          "Tracking and conversion verification",
-          "Creative and audience deployment QA",
-          "Optimization, budget control, and reporting cadence"
-        ],
-        optional: [
-          "Account audit and restructure",
-          "Landing page alignment recommendations"
-        ]
+        tags: ["PAID","ANALYTICS"],
+        must: ["Campaign setup and structure (accounts, objectives, naming)","Tracking and conversion verification","Creative and audience deployment QA","Optimization, budget control, and reporting cadence"],
+        optional: ["Account audit and restructure","Landing page alignment recommendations"]
       },
-      {
-        id: 8,
-        name: "Web, Landing Pages & CRO",
+      { id: 8, name: "Web, Landing Pages & CRO",
         provides: "Build and improve high-converting pages with proper forms and tracking, validate cross-device quality, and run CRO improvements and tests.",
-        tags: ["WEB", "ANALYTICS"],
-        must: [
-          "Landing page structure and copy (conversion-first)",
-          "Form and tracking alignment (events and UTMs)",
-          "Cross-device QA and speed hygiene checks",
-          "CRO test plan and prioritization",
-          "Iteration and performance review loop"
-        ],
-        optional: [
-          "A/B test setup support (tool dependent)",
-          "Heatmap/session recording interpretation"
-        ]
+        tags: ["WEB","ANALYTICS"],
+        must: ["Landing page structure and copy (conversion-first)","Form and tracking alignment (events and UTMs)","Cross-device QA and speed hygiene checks","CRO test plan and prioritization","Iteration and performance review loop"],
+        optional: ["A/B test setup support (tool dependent)","Heatmap/session recording interpretation"]
       },
-      {
-        id: 9,
-        name: "SEO & Organic Growth",
+      { id: 9, name: "SEO & Organic Growth",
         provides: "Improve organic visibility through technical fixes, keyword strategy, on-page optimization, local SEO, and link growth with clear reporting.",
         tags: ["SEO"],
-        must: [
-          "Keyword strategy and mapping",
-          "On-page SEO fixes (titles/meta/H1/H2, internal links)",
-          "Technical SEO checklist and fixes list",
-          "Local SEO essentials (profiles and citations guidance)",
-          "Content gap recommendations",
-          "Monthly SEO reporting summary"
-        ],
-        optional: [
-          "Backlink outreach plan (non-spam approach)",
-          "SEO audit deep-dive"
-        ]
+        must: ["Keyword strategy and mapping","On-page SEO fixes (titles/meta/H1/H2, internal links)","Technical SEO checklist and fixes list","Local SEO essentials (profiles and citations guidance)","Content gap recommendations","Monthly SEO reporting summary"],
+        optional: ["Backlink outreach plan (non-spam approach)","SEO audit deep-dive"]
       },
-      {
-        id: 10,
-        name: "Measurement, Analytics & Dashboards",
+      { id: 10, name: "Measurement, Analytics & Dashboards",
         provides: "Ensure reliable measurement: clean tracking, QA, dashboards and ongoing reporting foundations for decision-making.",
         tags: ["ANALYTICS"],
-        must: [
-          "Tracking plan validation (events, conversions, UTMs)",
-          "Analytics QA and anomaly checks",
-          "Dashboard build (executive and working views)",
-          "Reporting cadence and decision notes"
-        ],
-        optional: [
-          "Attribution review and guidance",
-          "Data layer recommendations (site dependent)",
-          "Admin traffic exclusion guidance"
-        ]
+        must: ["Tracking plan validation (events, conversions, UTMs)","Analytics QA and anomaly checks","Dashboard build (executive and working views)","Reporting cadence and decision notes"],
+        optional: ["Attribution review and guidance","Data layer recommendations (site dependent)","Admin traffic exclusion guidance"]
       }
     ];
 
@@ -989,18 +777,12 @@
     `;
 
     function escapeHtml(s){
-      return String(s)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
     }
     function countItems(arr){ return Array.isArray(arr) ? arr.length : 0; }
 
     function render(){
       grid.innerHTML = "";
-
       if(!filtered.length){
         grid.innerHTML = `
           <div class="card" style="grid-column:1/-1; min-height:auto;">
@@ -1013,25 +795,17 @@
 
       filtered.forEach(m => {
         const isSel = selected.has(m.id);
-
         const el = document.createElement("article");
         el.className = "card reveal" + (isSel ? " selected" : "");
         el.innerHTML = `
           <h3 class="cardTitle">${escapeHtml(m.name)}</h3>
-
-          <div class="tags">
-            ${(m.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
-          </div>
-
+          <div class="tags">${(m.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>
           <p class="cardDesc">${escapeHtml(m.provides)}</p>
-
           <div class="divider"></div>
-
           <div class="counts">
             <span>✓ <strong>${countItems(m.must)}</strong> core tasks</span>
             <span>+ <strong>${countItems(m.optional)}</strong> add-ons</span>
           </div>
-
           <div class="actionsWrap">
             <div class="actions">
               <button class="btn" type="button" data-action="details" data-id="${m.id}">View Details</button>
@@ -1049,7 +823,6 @@
 
     function renderScope(){
       const items = MODULES.filter(m => selected.has(m.id));
-
       if(!items.length){
         scopeList.innerHTML = `
           <div class="scopeItem" style="opacity:.85; grid-column:1/-1;">
@@ -1060,7 +833,6 @@
         scopeHint.textContent = "Tip: Select modules, then click Request Proposal to copy a proposal-ready outline.";
         return;
       }
-
       scopeHint.textContent = "Request Proposal copies your selected scope to clipboard.";
       scopeList.innerHTML = items.map(m => `
         <div class="scopeItem">
@@ -1096,8 +868,7 @@
         </div>
       `).join("");
 
-      const isSel = selected.has(id);
-      drawerSelectText.textContent = isSel ? "Added to Proposal" : "Add to Proposal";
+      drawerSelectText.textContent = selected.has(id) ? "Added to Proposal" : "Add to Proposal";
 
       backdrop.classList.add("open");
       drawer.classList.add("open");
@@ -1114,30 +885,16 @@
     function toggleSelect(id){
       if(selected.has(id)) selected.delete(id);
       else selected.add(id);
-
       render();
       renderScope();
-
-      if(openId === id){
-        const isSel = selected.has(id);
-        drawerSelectText.textContent = isSel ? "Added to Proposal" : "Add to Proposal";
-      }
+      if(openId === id) drawerSelectText.textContent = selected.has(id) ? "Added to Proposal" : "Add to Proposal";
     }
 
     function applySearch(){
       const q = (search.value || "").trim().toLowerCase();
-      if(!q){
-        filtered = [...MODULES];
-        render();
-        return;
-      }
+      if(!q){ filtered = [...MODULES]; render(); return; }
       filtered = MODULES.filter(m => {
-        const hay = [
-          m.name, m.provides,
-          ...(m.tags || []),
-          ...(m.must || []),
-          ...(m.optional || [])
-        ].join(" ").toLowerCase();
+        const hay = [m.name, m.provides, ...(m.tags||[]), ...(m.must||[]), ...(m.optional||[])].join(" ").toLowerCase();
         return hay.includes(q);
       });
       render();
@@ -1145,10 +902,7 @@
 
     async function requestProposal(){
       const items = MODULES.filter(m => selected.has(m.id));
-      if(!items.length){
-        alert("Select at least one module first.");
-        return;
-      }
+      if(!items.length){ alert("Select at least one module first."); return; }
 
       const text =
         "Elite Consultant - Scope Request\n\n" +
@@ -1182,10 +936,8 @@
     document.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-action]");
       if(!btn) return;
-
       const action = btn.getAttribute("data-action");
       const id = Number(btn.getAttribute("data-id"));
-
       if(action === "details") openDrawer(id);
       if(action === "toggle") toggleSelect(id);
       if(action === "remove") toggleSelect(id);
@@ -1197,17 +949,11 @@
     });
 
     requestBtn.addEventListener("click", requestProposal);
-
-    drawerSelect.addEventListener("click", () => {
-      if(openId == null) return;
-      toggleSelect(openId);
-    });
+    drawerSelect.addEventListener("click", () => { if(openId != null) toggleSelect(openId); });
 
     closeDrawerBtn.addEventListener("click", closeDrawer);
     backdrop.addEventListener("click", closeDrawer);
-    document.addEventListener("keydown", (e) => {
-      if(e.key === "Escape") closeDrawer();
-    });
+    document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeDrawer(); });
 
     function observeReveals(){
       const nodes = document.querySelectorAll(".reveal:not(.in)");
