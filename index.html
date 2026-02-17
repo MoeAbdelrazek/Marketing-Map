@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elite Consultant - Premium Services</title>
+  <meta name="description" content="Elite Consultant marketing modules. Select services, view full scope, and generate a proposal-ready outline." />
+
+  <style>
+    :root{
+      --bg0:#0b0d12;
+      --bg1:#0f1219;
+      --panel:#171a22;
+      --panel2:#141722;
+      --stroke:rgba(255,255,255,.08);
+      --stroke2:rgba(255,255,255,.12);
+      --ink:#e9e3d6;
+      --muted:rgba(233,227,214,.72);
+      --muted2:rgba(233,227,214,.55);
+      --gold:#bfa66a;
+      --gold2:#ead9b3;
+      --shadow:0 24px 70px rgba(0,0,0,.55);
+      --shadow2:0 14px 34px rgba(0,0,0,.35);
+      --r16:16px;
+      --r20:20px;
+      --r26:26px;
+      --max:1220px;
+      --drawerW:520px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(900px circle at 20% 10%, rgba(191,166,106,.10) 0%, rgba(0,0,0,0) 55%),
+        radial-gradient(900px circle at 80% 30%, rgba(233,227,214,.07) 0%, rgba(0,0,0,0) 58%),
+        linear-gradient(180deg, var(--bg1) 0%, var(--bg0) 100%);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
+      overflow-x:hidden;
+    }
+
+    /* subtle noise */
+    .noise{
+      pointer-events:none;
+      position:fixed; inset:0;
+      background-image:
+        radial-gradient(circle at 18% 22%, rgba(255,255,255,.07) 0 1px, transparent 1px),
+        radial-gradient(circle at 72% 64%, rgba(255,255,255,.06) 0 1px, transparent 1px),
+        radial-gradient(circle at 44% 84%, rgba(255,255,255,.05) 0 1px, transparent 1px);
+      background-size: 280px 280px, 220px 220px, 360px 360px;
+      opacity:.10;
+      mix-blend-mode:overlay;
+    }
+
+    a{color:inherit; text-decoration:none}
+
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 18px;
+      background: linear-gradient(180deg, rgba(10,12,17,.82) 0%, rgba(10,12,17,.55) 100%);
+      backdrop-filter: blur(12px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width:260px;
+    }
+    .brandMark{
+      width:46px; height:46px;
+      border-radius:999px;
+      box-shadow: 0 0 0 1px rgba(191,166,106,.32), 0 14px 34px rgba(0,0,0,.45);
+      overflow:hidden;
+      flex:0 0 auto;
+    }
+    .brandText{line-height:1}
+    .brandName{
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      letter-spacing:.26em;
+      font-weight:700;
+      font-size:18px;
+    }
+    .brandSub{
+      margin-top:2px;
+      font-size:11px;
+      letter-spacing:.34em;
+      color:var(--muted2);
+    }
+
+    .motto{
+      display:none;
+      color:var(--muted);
+      font-size:13px;
+      letter-spacing:.02em;
+      max-width:520px;
+      text-align:right;
+    }
+    @media (min-width: 980px){
+      .motto{display:block}
+    }
+
+    .page{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:36px 18px 64px;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:18px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .layout{grid-template-columns: 1fr}
+    }
+
+    .hero{
+      padding:18px 0 10px;
+    }
+    .heroTitle{
+      margin:0;
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      color:var(--gold);
+      font-weight:700;
+      font-size: clamp(30px, 3vw, 40px);
+      letter-spacing:.02em;
+    }
+    .heroSub{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.75;
+    }
+
+    .toolbar{
+      margin-top:16px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+    }
+    .search{
+      position:relative;
+      flex:1 1 360px;
+      max-width:520px;
+    }
+    .search input{
+      width:100%;
+      height:46px;
+      padding:0 46px 0 44px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(18,20,28,.65);
+      color:var(--ink);
+      outline:none;
+      box-shadow: var(--shadow2);
+    }
+    .search input:focus{
+      border-color: rgba(191,166,106,.40);
+      box-shadow: 0 0 0 4px rgba(191,166,106,.10), var(--shadow2);
+    }
+    .search .icon{
+      position:absolute; left:14px; top:50%;
+      transform:translateY(-50%);
+      opacity:.65;
+    }
+
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:16px;
+    }
+    @media (max-width: 1100px){
+      .grid{grid-template-columns: repeat(2, minmax(0, 1fr))}
+    }
+    @media (max-width: 640px){
+      .grid{grid-template-columns: 1fr}
+    }
+
+    .card{
+      position:relative;
+      border-radius: var(--r20);
+      border:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(23,26,34,.86), rgba(18,20,28,.68));
+      box-shadow: var(--shadow2);
+      padding:18px 18px 16px;
+      transition: transform .22s ease, border-color .22s ease, background .22s ease;
+      min-height: 280px;
+      overflow:hidden;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(191,166,106,.26);
+      background: linear-gradient(180deg, rgba(28,32,42,.90), rgba(18,20,28,.70));
+    }
+    .card.selected{
+      border-color: rgba(191,166,106,.55);
+      box-shadow: 0 0 0 1px rgba(191,166,106,.22) inset, var(--shadow2);
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      right:-90px; top:-90px;
+      width:220px; height:220px;
+      background: radial-gradient(circle at 30% 30%, rgba(191,166,106,.16), rgba(0,0,0,0) 70%);
+      transform: rotate(18deg);
+      opacity:.75;
+      pointer-events:none;
+    }
+
+    .cardTitle{
+      margin:0;
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      color:var(--gold);
+      font-size:22px;
+      letter-spacing:.02em;
+      font-weight:700;
+    }
+    .tags{
+      margin-top:10px;
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .tag{
+      font-size:11px;
+      letter-spacing:.10em;
+      padding:4px 8px;
+      border-radius:6px;
+      border:1px solid rgba(191,166,106,.18);
+      background: rgba(191,166,106,.07);
+      color: rgba(233,227,214,.85);
+      text-transform:uppercase;
+    }
+
+    .cardDesc{
+      margin:12px 0 0;
+      color:var(--muted);
+      font-size:13.5px;
+      line-height:1.8;
+      min-height:84px;
+    }
+    .divider{
+      margin:14px 0 10px;
+      height:1px;
+      background: rgba(255,255,255,.08);
+    }
+
+    .counts{
+      display:flex; gap:16px; align-items:center;
+      color:var(--muted2);
+      font-size:12px;
+      letter-spacing:.02em;
+      margin-bottom:12px;
+    }
+    .counts span{
+      display:inline-flex; gap:8px; align-items:center;
+    }
+
+    .actions{
+      display:flex; gap:10px;
+    }
+    .btn{
+      height:40px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color:var(--ink);
+      font-weight:600;
+      font-size:12.5px;
+      letter-spacing:.02em;
+      padding:0 14px;
+      cursor:pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      flex:1 1 auto;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(191,166,106,.22);
+      background: rgba(255,255,255,.05);
+    }
+    .btnPrimary{
+      background: rgba(191,166,106,.18);
+      border-color: rgba(191,166,106,.35);
+      color: #15161b;
+      background: linear-gradient(180deg, rgba(234,217,179,.88), rgba(191,166,106,.88));
+    }
+    .btnPrimary:hover{
+      border-color: rgba(191,166,106,.55);
+      transform: translateY(-1px);
+    }
+    .btnSelected{
+      background: rgba(191,166,106,.18);
+      border-color: rgba(191,166,106,.45);
+      color: #15161b;
+      background: linear-gradient(180deg, rgba(234,217,179,.80), rgba(191,166,106,.80));
+    }
+
+    /* Scope panel */
+    .scope{
+      position:sticky;
+      top:86px;
+      border-radius: var(--r20);
+      border:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(23,26,34,.86), rgba(18,20,28,.68));
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    @media (max-width: 980px){
+      .scope{position:relative; top:auto}
+    }
+    .scopeHead{
+      padding:16px 16px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .scopeTitle{
+      margin:0;
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      color:var(--gold);
+      font-size:16px;
+      letter-spacing:.02em;
+      display:flex; gap:10px; align-items:center;
+    }
+    .scopeSub{
+      margin:6px 0 0;
+      color:var(--muted2);
+      font-size:12px;
+      line-height:1.7;
+    }
+    .scopeBody{
+      padding:12px 12px 14px;
+      display:flex; flex-direction:column; gap:10px;
+      max-height: 58vh;
+      overflow:auto;
+    }
+    .scopeItem{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:10px 10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .scopeItemName{
+      font-size:12.5px;
+      color: rgba(233,227,214,.88);
+      line-height:1.35;
+    }
+    .scopeRemove{
+      width:28px; height:28px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: rgba(233,227,214,.72);
+      cursor:pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .scopeRemove:hover{
+      transform: translateY(-1px);
+      border-color: rgba(191,166,106,.22);
+      background: rgba(255,255,255,.05);
+    }
+    .scopeFoot{
+      padding:12px 12px 14px;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+    .scopeCTA{
+      width:100%;
+      height:44px;
+      border-radius:12px;
+      border:1px solid rgba(191,166,106,.35);
+      background: linear-gradient(180deg, rgba(234,217,179,.88), rgba(191,166,106,.88));
+      color:#141518;
+      font-weight:700;
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      letter-spacing:.02em;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .scopeCTA:hover{
+      transform: translateY(-1px);
+      border-color: rgba(191,166,106,.55);
+    }
+    .scopeHint{
+      margin-top:10px;
+      color:var(--muted2);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    /* Drawer */
+    .backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.62);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .22s ease;
+      z-index:80;
+    }
+    .backdrop.open{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .drawer{
+      position:fixed;
+      top:0; right:0;
+      width: min(var(--drawerW), 92vw);
+      height:100vh;
+      background: linear-gradient(180deg, rgba(23,26,34,.96), rgba(18,20,28,.92));
+      border-left:1px solid rgba(255,255,255,.08);
+      box-shadow: var(--shadow);
+      transform: translateX(110%);
+      transition: transform .24s ease;
+      z-index:90;
+      display:flex; flex-direction:column;
+    }
+    .drawer.open{transform: translateX(0)}
+    .drawerTop{
+      padding:16px 16px 12px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(191,166,106,.22);
+      background: rgba(191,166,106,.10);
+      color: rgba(233,227,214,.88);
+      font-size:11px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .drawerClose{
+      width:40px; height:40px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color: rgba(233,227,214,.88);
+      cursor:pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+    .drawerClose:hover{
+      transform: translateY(-1px);
+      border-color: rgba(191,166,106,.22);
+      background: rgba(255,255,255,.05);
+    }
+
+    .drawerBody{
+      padding:16px 16px 0;
+      overflow:auto;
+    }
+    .drawerTitle{
+      margin:10px 0 0;
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      color:var(--gold);
+      font-size:30px;
+      letter-spacing:.02em;
+      font-weight:700;
+      line-height:1.1;
+    }
+    .drawerLead{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.85;
+      font-size:13.5px;
+    }
+
+    .sectionLabel{
+      margin:18px 0 10px;
+      color: rgba(233,227,214,.82);
+      font-weight:700;
+      letter-spacing:.02em;
+      display:flex; gap:10px; align-items:center;
+    }
+    .list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .row{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+    }
+    .rowLeft{
+      display:flex; gap:10px; align-items:flex-start;
+      min-width:0;
+    }
+    .rowText{
+      color: rgba(233,227,214,.88);
+      font-size:13px;
+      line-height:1.45;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .iconBox{
+      width:20px; height:20px; margin-top:1px;
+      border-radius:7px;
+      border:1px solid rgba(255,255,255,.10);
+      display:flex; align-items:center; justify-content:center;
+      flex:0 0 auto;
+    }
+
+    .drawerFoot{
+      margin-top:auto;
+      padding:12px 16px 14px;
+      border-top:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.10);
+    }
+    .drawerCTA{
+      width:100%;
+      height:46px;
+      border-radius:12px;
+      border:1px solid rgba(191,166,106,.35);
+      background: linear-gradient(180deg, rgba(234,217,179,.88), rgba(191,166,106,.88));
+      color:#141518;
+      font-weight:800;
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+      letter-spacing:.02em;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .drawerCTA:hover{
+      transform: translateY(-1px);
+      border-color: rgba(191,166,106,.55);
+    }
+
+    /* little scrollbars */
+    .scopeBody::-webkit-scrollbar,
+    .drawerBody::-webkit-scrollbar{width:10px}
+    .scopeBody::-webkit-scrollbar-thumb,
+    .drawerBody::-webkit-scrollbar-thumb{
+      background: rgba(255,255,255,.10);
+      border-radius:999px;
+      border:2px solid rgba(0,0,0,0);
+      background-clip: padding-box;
+    }
+
+    /* reveal */
+    .reveal{opacity:0; transform:translateY(12px); transition: opacity .7s ease, transform .7s ease;}
+    .reveal.in{opacity:1; transform:translateY(0);}
+    @media (prefers-reduced-motion: reduce){
+      .reveal{transition:none}
+      .card,.btn,.scopeCTA,.drawer,.backdrop{transition:none}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Elite Consultant home">
+      <div class="brandMark" aria-hidden="true">
+        <!-- Inline logo (compass + E) -->
+        <svg viewBox="0 0 120 120" width="46" height="46" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ead9b3"/>
+              <stop offset="1" stop-color="#bfa66a"/>
+            </linearGradient>
+            <radialGradient id="gNavy" cx="50%" cy="40%" r="70%">
+              <stop offset="0" stop-color="#1d2230"/>
+              <stop offset="1" stop-color="#0f1219"/>
+            </radialGradient>
+          </defs>
+
+          <!-- outer ring -->
+          <circle cx="60" cy="60" r="48" fill="url(#gNavy)" stroke="url(#gGold)" stroke-width="5"/>
+          <circle cx="60" cy="60" r="39" fill="none" stroke="rgba(233,227,214,.12)" stroke-width="2"/>
+
+          <!-- spikes (simple, classy, no direction letters) -->
+          <g fill="url(#gGold)">
+            <path d="M60 6 L66 26 L60 34 L54 26 Z"/>
+            <path d="M60 114 L66 94 L60 86 L54 94 Z"/>
+            <path d="M6 60 L26 54 L34 60 L26 66 Z"/>
+            <path d="M114 60 L94 54 L86 60 L94 66 Z"/>
+          </g>
+
+          <!-- tick marks -->
+          <g stroke="rgba(233,227,214,.18)" stroke-width="2">
+            <line x1="60" y1="20" x2="60" y2="26"/>
+            <line x1="60" y1="94" x2="60" y2="100"/>
+            <line x1="20" y1="60" x2="26" y2="60"/>
+            <line x1="94" y1="60" x2="100" y2="60"/>
+          </g>
+
+          <!-- center -->
+          <circle cx="60" cy="60" r="22" fill="url(#gNavy)" stroke="url(#gGold)" stroke-width="3"/>
+          <text x="60" y="70" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+                font-size="34" font-weight="700" fill="#ead9b3">E</text>
+        </svg>
+      </div>
+
+      <div class="brandText">
+        <div class="brandName">ELITE</div>
+        <div class="brandSub">CONSULTANT</div>
+      </div>
+    </a>
+
+    <div class="motto">
+      Precision marketing, built like a system. Clean scope. Premium execution. Measurable outcomes.
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="layout">
+      <!-- Left -->
+      <section>
+        <div class="hero reveal">
+          <h1 class="heroTitle">Explore Our Modules</h1>
+          <p class="heroSub">Select the services that match your current needs.</p>
+
+          <div class="toolbar">
+            <div class="search">
+              <span class="icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M10.5 19a8.5 8.5 0 1 1 0-17 8.5 8.5 0 0 1 0 17Z" stroke="rgba(233,227,214,.65)" stroke-width="2"/>
+                  <path d="M16.8 16.8 22 22" stroke="rgba(233,227,214,.65)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+              <input id="search" type="search" placeholder="Search services..." autocomplete="off" />
+            </div>
+          </div>
+        </div>
+
+        <div id="grid" class="grid"></div>
+      </section>
+
+      <!-- Right scope -->
+      <aside class="scope reveal">
+        <div class="scopeHead">
+          <h3 class="scopeTitle">
+            <span aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M7 3h10a2 2 0 0 1 2 2v16l-7-3-7 3V5a2 2 0 0 1 2-2Z" stroke="rgba(233,227,214,.75)" stroke-width="2" />
+              </svg>
+            </span>
+            Your Scope
+          </h3>
+          <div class="scopeSub">We tailor the final scope to your capacity.</div>
+        </div>
+
+        <div class="scopeBody" id="scopeList"></div>
+
+        <div class="scopeFoot">
+          <button class="scopeCTA" id="requestBtn" type="button">
+            Request Proposal
+            <span aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h12" stroke="#141518" stroke-width="2" stroke-linecap="round"/>
+                <path d="M13 6l6 6-6 6" stroke="#141518" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <div class="scopeHint" id="scopeHint">
+            Tip: Select modules, then click Request Proposal to copy a proposal-ready outline.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Drawer -->
+  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+  <aside class="drawer" id="drawer" aria-label="Module details panel">
+    <div class="drawerTop">
+      <div class="pill">Module Details</div>
+      <button class="drawerClose" id="closeDrawer" type="button" aria-label="Close">✕</button>
+    </div>
+
+    <div class="drawerBody">
+      <h2 class="drawerTitle" id="dTitle"></h2>
+      <p class="drawerLead" id="dLead"></p>
+
+      <div class="sectionLabel">• Included Tasks</div>
+      <div class="list" id="dMust"></div>
+
+      <div class="sectionLabel" style="margin-top:18px;">• Optional Add-ons</div>
+      <div class="list" id="dOpt"></div>
+
+      <div style="height:18px;"></div>
+    </div>
+
+    <div class="drawerFoot">
+      <button class="drawerCTA" id="drawerSelect" type="button">
+        <span id="drawerSelectText">Added to Proposal</span>
+      </button>
+    </div>
+  </aside>
+
+  <script>
+    /* ========= DATA (embedded) =========
+       This is structured exactly to render the UI you showed.
+       If you want to replace tasks later, only edit MODULES below.
+    */
+
+    const MODULES = [
+      {
+        id: 1,
+        name: "Discovery & Governance",
+        provides: "Align stakeholders, clarify scope and success metrics, and establish governance (cadence, documentation, risk and change control).",
+        tags: ["DISCOVERY", "STRATEGY"],
+        must: [
+          "Client intake & brief analysis",
+          "Stakeholder interview",
+          "Kickoff meeting prep & run",
+          "Project plan/workback update",
+          "Weekly status meeting",
+          "Client communications & status updates",
+          "Asset management & documentation",
+          "Risk register + change control"
+        ],
+        optional: [
+          "KPI definition & measurement plan",
+          "Channel audit",
+          "Content audit"
+        ]
+      },
+      {
+        id: 2,
+        name: "Research & Insights (Market + Competitors)",
+        provides: "Produce evidence-based insights on the market, competitors, channels and existing assets to inform strategy and execution.",
+        tags: ["STRATEGY", "DISCOVERY"],
+        must: [
+          "Market research (KSA)",
+          "Competitor analysis",
+          "Insights & findings summary",
+          "Channel audit",
+          "Content audit",
+          "Market gap & opportunity sizing"
+        ],
+        optional: [
+          "Audience/persona research",
+          "Segmentation & targeting matrix",
+          "KPI definition & measurement plan"
+        ]
+      },
+      {
+        id: 3,
+        name: "Audience, Segmentation & Positioning",
+        provides: "Define who we target, why we win, and how the offer is packaged and communicated (personas, targeting logic, positioning and offer architecture).",
+        tags: ["STRATEGY"],
+        must: [
+          "Audience/persona research",
+          "Segmentation & targeting matrix",
+          "Positioning statement and messaging pillars",
+          "Offer architecture and value proposition"
+        ],
+        optional: [
+          "Market gap & opportunity sizing",
+          "KPI definition & measurement plan",
+          "Channel audit"
+        ]
+      },
+      {
+        id: 4,
+        name: "Strategy & Planning (Goals → Channels → Execution Plan)",
+        provides: "Translate insights into a practical plan: clear KPIs, channel and campaign approach, content plan, and an execution-ready roadmap.",
+        tags: ["STRATEGY"],
+        must: [
+          "KPI definition & measurement plan",
+          "Channel strategy and prioritization",
+          "Campaign plan and funnel mapping",
+          "Content plan (pillars and cadence)",
+          "Creative direction and briefs",
+          "Budget framework and allocation logic",
+          "Tracking requirements and measurement setup plan",
+          "Execution roadmap (workback and milestones)"
+        ],
+        optional: [
+          "Go-to-market launch plan",
+          "Budget and forecast sensitivity scenarios",
+          "Stakeholder workshop session"
+        ]
+      },
+      {
+        id: 5,
+        name: "Content & Creative Production",
+        provides: "Produce high-quality creative assets (design, copy, video) with briefs, QA, and platform-ready exports, optimized for performance and consistency.",
+        tags: ["CONTENT", "WEB"],
+        must: [
+          "Creative brief creation",
+          "Static post design (template based)",
+          "Static post design from scratch",
+          "Carousel post design",
+          "Design resize/adaptation per platform",
+          "English copywriting",
+          "Arabic copywriting/adaptation",
+          "Bilingual adaptation",
+          "Caption copywriting",
+          "Short-form video concept ideation",
+          "Script writing (short video)",
+          "Storyboard creation",
+          "Sound & music selection",
+          "Video editing (15-30s)",
+          "Motion graphics & effects",
+          "Captions & subtitles",
+          "Export & format versions",
+          "Publish workflow management",
+          "QA & scheduling (static posts)",
+          "Content refresh/update",
+          "Internal QA review pass",
+          "Creative adaptation for ads"
+        ],
+        optional: [
+          "SEO brief for writers",
+          "On-page edits (titles/meta/H1/H2 and internal links)",
+          "Content repurposing plan"
+        ]
+      },
+      {
+        id: 6,
+        name: "Social & Community Management",
+        provides: "Ensure consistent brand interactions and fast issue handling through templates, escalation rules, and ongoing community responses.",
+        tags: ["COMMUNITY", "CONTENT"],
+        must: [
+          "Community response management (comments and inbox triage)",
+          "Response templates and tone guidelines",
+          "Escalation rules and SLA (service-level agreement) handling",
+          "Weekly community insights summary"
+        ],
+        optional: [
+          "Crisis response playbook",
+          "Social listening keywords setup"
+        ]
+      },
+      {
+        id: 7,
+        name: "Paid Campaign Execution (Setup → Optimize → Report)",
+        provides: "Launch and run paid campaigns end-to-end: platform setup, build, QA, optimization, budget management, and performance reporting.",
+        tags: ["PAID", "ANALYTICS"],
+        must: [
+          "Campaign setup and structure (accounts, objectives, naming)",
+          "Tracking and conversion verification",
+          "Creative and audience deployment QA",
+          "Optimization, budget control, and reporting cadence"
+        ],
+        optional: [
+          "Account audit and restructure",
+          "Landing page alignment recommendations"
+        ]
+      },
+      {
+        id: 8,
+        name: "Web, Landing Pages & CRO",
+        provides: "Build and improve high-converting pages with proper forms and tracking, validate cross-device quality, and run CRO improvements and tests.",
+        tags: ["WEB", "ANALYTICS"],
+        must: [
+          "Landing page structure and copy (conversion-first)",
+          "Form and tracking alignment (events and UTMs)",
+          "Cross-device QA and speed hygiene checks",
+          "CRO test plan and prioritization",
+          "Iteration and performance review loop"
+        ],
+        optional: [
+          "A/B test setup support (tool dependent)",
+          "Heatmap/session recording interpretation"
+        ]
+      },
+      {
+        id: 9,
+        name: "SEO & Organic Growth",
+        provides: "Improve organic visibility through technical fixes, keyword strategy, on-page optimization, local SEO, and link growth with clear reporting.",
+        tags: ["SEO"],
+        must: [
+          "Keyword strategy and mapping",
+          "On-page SEO fixes (titles/meta/H1/H2, internal links)",
+          "Technical SEO checklist and fixes list",
+          "Local SEO essentials (profiles and citations guidance)",
+          "Content gap recommendations",
+          "Monthly SEO reporting summary"
+        ],
+        optional: [
+          "Backlink outreach plan (non-spam approach)",
+          "SEO audit deep-dive"
+        ]
+      },
+      {
+        id: 10,
+        name: "Measurement, Analytics & Dashboards",
+        provides: "Ensure reliable measurement: clean tracking, QA, dashboards and ongoing reporting foundations for decision-making.",
+        tags: ["ANALYTICS"],
+        must: [
+          "Tracking plan validation (events, conversions, UTMs)",
+          "Analytics QA and anomaly checks",
+          "Dashboard build (executive and working views)",
+          "Reporting cadence and decision notes"
+        ],
+        optional: [
+          "Attribution review and guidance",
+          "Data layer recommendations (site dependent)",
+          "Admin traffic exclusion guidance"
+        ]
+      }
+    ];
+
+    /* ========= UI LOGIC ========= */
+
+    const grid = document.getElementById("grid");
+    const scopeList = document.getElementById("scopeList");
+    const search = document.getElementById("search");
+
+    const drawer = document.getElementById("drawer");
+    const backdrop = document.getElementById("backdrop");
+    const closeDrawerBtn = document.getElementById("closeDrawer");
+    const dTitle = document.getElementById("dTitle");
+    const dLead = document.getElementById("dLead");
+    const dMust = document.getElementById("dMust");
+    const dOpt = document.getElementById("dOpt");
+    const drawerSelect = document.getElementById("drawerSelect");
+    const drawerSelectText = document.getElementById("drawerSelectText");
+
+    const requestBtn = document.getElementById("requestBtn");
+    const scopeHint = document.getElementById("scopeHint");
+
+    const selected = new Set();
+    let filtered = [...MODULES];
+    let openId = null;
+
+    const iconCheck = () => `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M20 6 9 17l-5-5" stroke="rgba(234,217,179,.92)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    `;
+    const iconPlus = () => `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+        <path d="M12 5v14M5 12h14" stroke="rgba(233,227,214,.80)" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+    `;
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function countItems(arr){ return Array.isArray(arr) ? arr.length : 0; }
+
+    function render(){
+      grid.innerHTML = "";
+
+      if(!filtered.length){
+        grid.innerHTML = `
+          <div class="card" style="grid-column:1/-1; min-height:auto;">
+            <h3 class="cardTitle">No results</h3>
+            <p class="cardDesc">Try a different search term.</p>
+          </div>
+        `;
+        return;
+      }
+
+      filtered.forEach(m => {
+        const isSel = selected.has(m.id);
+
+        const el = document.createElement("article");
+        el.className = "card reveal" + (isSel ? " selected" : "");
+        el.innerHTML = `
+          <h3 class="cardTitle">${escapeHtml(m.name)}</h3>
+
+          <div class="tags">
+            ${(m.tags || []).map(t => `<span class="tag">${escapeHtml(t)}</span>`).join("")}
+          </div>
+
+          <p class="cardDesc">${escapeHtml(m.provides)}</p>
+
+          <div class="divider"></div>
+
+          <div class="counts">
+            <span>✓ <strong>${countItems(m.must)}</strong> core tasks</span>
+            <span>+ <strong>${countItems(m.optional)}</strong> add-ons</span>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="button" data-action="details" data-id="${m.id}">View Details</button>
+            <button class="btn ${isSel ? "btnSelected" : "btnPrimary"}" type="button" data-action="toggle" data-id="${m.id}">
+              ${isSel ? "✓ Selected" : "Select"}
+            </button>
+          </div>
+        `;
+
+        grid.appendChild(el);
+      });
+
+      observeReveals();
+    }
+
+    function renderScope(){
+      const items = MODULES.filter(m => selected.has(m.id));
+
+      if(!items.length){
+        scopeList.innerHTML = `
+          <div class="scopeItem" style="opacity:.85;">
+            <div class="scopeItemName">No modules selected yet.</div>
+            <div style="width:28px;"></div>
+          </div>
+        `;
+        scopeHint.textContent = "Tip: Select modules, then click Request Proposal to copy a proposal-ready outline.";
+        requestBtn.disabled = false;
+        return;
+      }
+
+      scopeHint.textContent = "Request Proposal copies your selected scope to clipboard.";
+      scopeList.innerHTML = items.map(m => `
+        <div class="scopeItem">
+          <div class="scopeItemName">${escapeHtml(m.name)}</div>
+          <button class="scopeRemove" type="button" title="Remove" aria-label="Remove ${escapeHtml(m.name)}" data-action="remove" data-id="${m.id}">×</button>
+        </div>
+      `).join("");
+    }
+
+    function openDrawer(id){
+      const m = MODULES.find(x => x.id === id);
+      if(!m) return;
+
+      openId = id;
+      dTitle.textContent = m.name;
+      dLead.textContent = m.provides;
+
+      dMust.innerHTML = (m.must || []).map(t => `
+        <div class="row">
+          <div class="rowLeft">
+            <div class="iconBox">${iconCheck()}</div>
+            <div class="rowText">${escapeHtml(t)}</div>
+          </div>
+        </div>
+      `).join("");
+
+      dOpt.innerHTML = (m.optional || []).map(t => `
+        <div class="row">
+          <div class="rowLeft">
+            <div class="iconBox">${iconPlus()}</div>
+            <div class="rowText">${escapeHtml(t)}</div>
+          </div>
+        </div>
+      `).join("");
+
+      const isSel = selected.has(id);
+      drawerSelectText.textContent = isSel ? "Added to Proposal" : "Add to Proposal";
+
+      backdrop.classList.add("open");
+      drawer.classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDrawer(){
+      backdrop.classList.remove("open");
+      drawer.classList.remove("open");
+      document.body.style.overflow = "";
+      openId = null;
+    }
+
+    function toggleSelect(id){
+      if(selected.has(id)) selected.delete(id);
+      else selected.add(id);
+
+      render();
+      renderScope();
+
+      if(openId === id){
+        const isSel = selected.has(id);
+        drawerSelectText.textContent = isSel ? "Added to Proposal" : "Add to Proposal";
+      }
+    }
+
+    function applySearch(){
+      const q = (search.value || "").trim().toLowerCase();
+      if(!q){
+        filtered = [...MODULES];
+        render();
+        return;
+      }
+      filtered = MODULES.filter(m => {
+        const hay = [
+          m.name, m.provides,
+          ...(m.tags || []),
+          ...(m.must || []),
+          ...(m.optional || [])
+        ].join(" ").toLowerCase();
+        return hay.includes(q);
+      });
+      render();
+    }
+
+    async function requestProposal(){
+      const items = MODULES.filter(m => selected.has(m.id));
+      if(!items.length){
+        alert("Select at least one module first.");
+        return;
+      }
+
+      const text =
+        "Elite Consultant - Scope Request\n\n" +
+        items.map((m, idx) => {
+          const must = (m.must || []).map(x => "  - " + x).join("\n");
+          const opt = (m.optional || []).map(x => "  - " + x).join("\n");
+          return (
+            `${idx + 1}) ${m.name}\n` +
+            `What it provides:\n  ${m.provides}\n\n` +
+            `Included tasks:\n${must || "  - (none)"}\n\n` +
+            `Optional add-ons:\n${opt || "  - (none)"}\n`
+          );
+        }).join("\n");
+
+      try{
+        await navigator.clipboard.writeText(text);
+        alert("Copied to clipboard. Paste it into email or a proposal document.");
+      }catch(e){
+        // fallback
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        alert("Copied to clipboard. Paste it into email or a proposal document.");
+      }
+    }
+
+    /* events */
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-action]");
+      if(!btn) return;
+
+      const action = btn.getAttribute("data-action");
+      const id = Number(btn.getAttribute("data-id"));
+
+      if(action === "details") openDrawer(id);
+      if(action === "toggle") toggleSelect(id);
+      if(action === "remove") toggleSelect(id);
+    });
+
+    search.addEventListener("input", () => {
+      window.clearTimeout(search._t);
+      search._t = window.setTimeout(applySearch, 80);
+    });
+
+    requestBtn.addEventListener("click", requestProposal);
+
+    drawerSelect.addEventListener("click", () => {
+      if(openId == null) return;
+      toggleSelect(openId);
+    });
+
+    closeDrawerBtn.addEventListener("click", closeDrawer);
+    backdrop.addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape") closeDrawer();
+    });
+
+    /* reveal on scroll */
+    function observeReveals(){
+      const nodes = document.querySelectorAll(".reveal:not(.in)");
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(ent => {
+          if(ent.isIntersecting){
+            ent.target.classList.add("in");
+            io.unobserve(ent.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      nodes.forEach(n => io.observe(n));
+    }
+
+    /* init */
+    render();
+    renderScope();
+    observeReveals();
+  </script>
+</body>
+</html>
