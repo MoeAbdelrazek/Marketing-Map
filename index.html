@@ -23,7 +23,6 @@
       --shadow2:0 14px 34px rgba(0,0,0,.35);
       --r16:16px;
       --r20:20px;
-      --r26:26px;
       --max:1220px;
       --drawerW:520px;
     }
@@ -41,7 +40,6 @@
       overflow-x:hidden;
     }
 
-    /* subtle noise */
     .noise{
       pointer-events:none;
       position:fixed; inset:0;
@@ -56,25 +54,50 @@
 
     a{color:inherit; text-decoration:none}
 
+    /* TOP BAR */
     .topbar{
       position:sticky; top:0; z-index:50;
-      display:flex; align-items:center; justify-content:space-between;
+      display:grid;
+      grid-template-columns: 320px 1fr 320px;
+      align-items:center;
+      gap:10px;
       padding:14px 18px;
       background: linear-gradient(180deg, rgba(10,12,17,.82) 0%, rgba(10,12,17,.55) 100%);
       backdrop-filter: blur(12px);
       border-bottom:1px solid rgba(255,255,255,.06);
     }
+    @media (max-width: 980px){
+      .topbar{
+        grid-template-columns: 1fr;
+        justify-items:center;
+        row-gap:10px;
+        padding:14px 14px;
+      }
+    }
 
     .brand{
       display:flex; align-items:center; gap:12px;
       min-width:260px;
+      justify-self:start;
     }
+    @media (max-width: 980px){
+      .brand{justify-self:center}
+    }
+
     .brandMark{
       width:46px; height:46px;
       border-radius:999px;
       box-shadow: 0 0 0 1px rgba(191,166,106,.32), 0 14px 34px rgba(0,0,0,.45);
       overflow:hidden;
       flex:0 0 auto;
+      background: rgba(0,0,0,.18);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .brandMark img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
     .brandText{line-height:1}
     .brandName{
@@ -90,16 +113,57 @@
       color:var(--muted2);
     }
 
+    /* CENTERED MOTTO (unique styling without external fonts) */
     .motto{
-      display:none;
-      color:var(--muted);
-      font-size:13px;
-      letter-spacing:.02em;
-      max-width:520px;
-      text-align:right;
+      justify-self:center;
+      text-align:center;
+      color: rgba(233,227,214,.82);
+      font-family: ui-serif, Georgia, "Times New Roman", serif;
+      font-style: italic;
+      font-variant: small-caps;
+      letter-spacing: .22em;
+      font-size: 12px;
+      line-height: 1.35;
+      text-shadow: 0 10px 26px rgba(0,0,0,.55);
+      position: relative;
+      padding: 6px 12px;
+      max-width: 760px;
+      user-select:none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    @media (min-width: 980px){
-      .motto{display:block}
+    .motto::before,
+    .motto::after{
+      content:"";
+      position:absolute;
+      top:50%;
+      width:90px;
+      height:1px;
+      background: linear-gradient(90deg, rgba(191,166,106,0), rgba(191,166,106,.55), rgba(191,166,106,0));
+      transform: translateY(-50%);
+      opacity:.75;
+    }
+    .motto::before{left:-92px}
+    .motto::after{right:-92px}
+
+    @media (max-width: 980px){
+      .motto{
+        white-space: normal;
+        letter-spacing: .14em;
+        font-size: 11px;
+        padding: 0;
+      }
+      .motto::before,.motto::after{display:none}
+    }
+
+    .topRight{
+      justify-self:end;
+      opacity:.0; /* intentionally empty to keep center motto perfectly centered */
+      pointer-events:none;
+    }
+    @media (max-width: 980px){
+      .topRight{display:none}
     }
 
     .page{
@@ -253,14 +317,19 @@
       font-size:12px;
       letter-spacing:.02em;
       margin-bottom:12px;
+      flex-wrap:wrap;
     }
     .counts span{
       display:inline-flex; gap:8px; align-items:center;
     }
 
+    /* CTA buttons must be horizontal ALWAYS */
     .actions{
-      display:flex; gap:10px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
     }
+
     .btn{
       height:40px;
       border-radius:10px;
@@ -273,7 +342,7 @@
       padding:0 14px;
       cursor:pointer;
       transition: transform .18s ease, border-color .18s ease, background .18s ease;
-      flex:1 1 auto;
+      white-space:nowrap;
     }
     .btn:hover{
       transform: translateY(-1px);
@@ -281,7 +350,6 @@
       background: rgba(255,255,255,.05);
     }
     .btnPrimary{
-      background: rgba(191,166,106,.18);
       border-color: rgba(191,166,106,.35);
       color: #15161b;
       background: linear-gradient(180deg, rgba(234,217,179,.88), rgba(191,166,106,.88));
@@ -291,7 +359,6 @@
       transform: translateY(-1px);
     }
     .btnSelected{
-      background: rgba(191,166,106,.18);
       border-color: rgba(191,166,106,.45);
       color: #15161b;
       background: linear-gradient(180deg, rgba(234,217,179,.80), rgba(191,166,106,.80));
@@ -531,7 +598,6 @@
       border-color: rgba(191,166,106,.55);
     }
 
-    /* little scrollbars */
     .scopeBody::-webkit-scrollbar,
     .drawerBody::-webkit-scrollbar{width:10px}
     .scopeBody::-webkit-scrollbar-thumb,
@@ -542,7 +608,6 @@
       background-clip: padding-box;
     }
 
-    /* reveal */
     .reveal{opacity:0; transform:translateY(12px); transition: opacity .7s ease, transform .7s ease;}
     .reveal.in{opacity:1; transform:translateY(0);}
     @media (prefers-reduced-motion: reduce){
@@ -558,44 +623,8 @@
   <header class="topbar">
     <a class="brand" href="#" aria-label="Elite Consultant home">
       <div class="brandMark" aria-hidden="true">
-        <!-- Inline logo (compass + E) -->
-        <svg viewBox="0 0 120 120" width="46" height="46" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#ead9b3"/>
-              <stop offset="1" stop-color="#bfa66a"/>
-            </linearGradient>
-            <radialGradient id="gNavy" cx="50%" cy="40%" r="70%">
-              <stop offset="0" stop-color="#1d2230"/>
-              <stop offset="1" stop-color="#0f1219"/>
-            </radialGradient>
-          </defs>
-
-          <!-- outer ring -->
-          <circle cx="60" cy="60" r="48" fill="url(#gNavy)" stroke="url(#gGold)" stroke-width="5"/>
-          <circle cx="60" cy="60" r="39" fill="none" stroke="rgba(233,227,214,.12)" stroke-width="2"/>
-
-          <!-- spikes (simple, classy, no direction letters) -->
-          <g fill="url(#gGold)">
-            <path d="M60 6 L66 26 L60 34 L54 26 Z"/>
-            <path d="M60 114 L66 94 L60 86 L54 94 Z"/>
-            <path d="M6 60 L26 54 L34 60 L26 66 Z"/>
-            <path d="M114 60 L94 54 L86 60 L94 66 Z"/>
-          </g>
-
-          <!-- tick marks -->
-          <g stroke="rgba(233,227,214,.18)" stroke-width="2">
-            <line x1="60" y1="20" x2="60" y2="26"/>
-            <line x1="60" y1="94" x2="60" y2="100"/>
-            <line x1="20" y1="60" x2="26" y2="60"/>
-            <line x1="94" y1="60" x2="100" y2="60"/>
-          </g>
-
-          <!-- center -->
-          <circle cx="60" cy="60" r="22" fill="url(#gNavy)" stroke="url(#gGold)" stroke-width="3"/>
-          <text x="60" y="70" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
-                font-size="34" font-weight="700" fill="#ead9b3">E</text>
-        </svg>
+        <!-- Uses your repo logo file: logo.png -->
+        <img src="logo.png" alt="" />
       </div>
 
       <div class="brandText">
@@ -604,14 +633,15 @@
       </div>
     </a>
 
-    <div class="motto">
+    <div class="motto" title="Elite Consultant motto">
       Precision marketing, built like a system. Clean scope. Premium execution. Measurable outcomes.
     </div>
+
+    <div class="topRight">.</div>
   </header>
 
   <main class="page">
     <div class="layout">
-      <!-- Left -->
       <section>
         <div class="hero reveal">
           <h1 class="heroTitle">Explore Our Modules</h1>
@@ -633,7 +663,6 @@
         <div id="grid" class="grid"></div>
       </section>
 
-      <!-- Right scope -->
       <aside class="scope reveal">
         <div class="scopeHead">
           <h3 class="scopeTitle">
@@ -667,7 +696,6 @@
     </div>
   </main>
 
-  <!-- Drawer -->
   <div class="backdrop" id="backdrop" aria-hidden="true"></div>
 
   <aside class="drawer" id="drawer" aria-label="Module details panel">
@@ -697,11 +725,6 @@
   </aside>
 
   <script>
-    /* ========= DATA (embedded) =========
-       This is structured exactly to render the UI you showed.
-       If you want to replace tasks later, only edit MODULES below.
-    */
-
     const MODULES = [
       {
         id: 1,
@@ -824,7 +847,7 @@
         must: [
           "Community response management (comments and inbox triage)",
           "Response templates and tone guidelines",
-          "Escalation rules and SLA (service-level agreement) handling",
+          "Escalation rules and SLA handling",
           "Weekly community insights summary"
         ],
         optional: [
@@ -901,8 +924,6 @@
         ]
       }
     ];
-
-    /* ========= UI LOGIC ========= */
 
     const grid = document.getElementById("grid");
     const scopeList = document.getElementById("scopeList");
@@ -1006,7 +1027,6 @@
           </div>
         `;
         scopeHint.textContent = "Tip: Select modules, then click Request Proposal to copy a proposal-ready outline.";
-        requestBtn.disabled = false;
         return;
       }
 
@@ -1116,7 +1136,6 @@
         await navigator.clipboard.writeText(text);
         alert("Copied to clipboard. Paste it into email or a proposal document.");
       }catch(e){
-        // fallback
         const ta = document.createElement("textarea");
         ta.value = text;
         ta.style.position = "fixed";
@@ -1129,7 +1148,6 @@
       }
     }
 
-    /* events */
     document.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-action]");
       if(!btn) return;
@@ -1160,7 +1178,6 @@
       if(e.key === "Escape") closeDrawer();
     });
 
-    /* reveal on scroll */
     function observeReveals(){
       const nodes = document.querySelectorAll(".reveal:not(.in)");
       const io = new IntersectionObserver((entries) => {
@@ -1175,7 +1192,6 @@
       nodes.forEach(n => io.observe(n));
     }
 
-    /* init */
     render();
     renderScope();
     observeReveals();
