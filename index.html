@@ -23,7 +23,11 @@
       --shadow2:0 14px 34px rgba(0,0,0,.35);
       --r16:16px;
       --r20:20px;
-      --max:1220px;
+
+      /* Wider container so cards "breathe" */
+      --max:1400px;
+      /* Gap between cards */
+      --gap:18px;
       --drawerW:520px;
     }
 
@@ -113,7 +117,7 @@
       color:var(--muted2);
     }
 
-    /* CENTERED MOTTO (unique styling without external fonts) */
+    /* CENTERED MOTTO */
     .motto{
       justify-self:center;
       text-align:center;
@@ -127,7 +131,7 @@
       text-shadow: 0 10px 26px rgba(0,0,0,.55);
       position: relative;
       padding: 6px 12px;
-      max-width: 760px;
+      max-width: 900px;
       user-select:none;
       white-space: nowrap;
       overflow: hidden;
@@ -138,14 +142,14 @@
       content:"";
       position:absolute;
       top:50%;
-      width:90px;
+      width:110px;
       height:1px;
       background: linear-gradient(90deg, rgba(191,166,106,0), rgba(191,166,106,.55), rgba(191,166,106,0));
       transform: translateY(-50%);
       opacity:.75;
     }
-    .motto::before{left:-92px}
-    .motto::after{right:-92px}
+    .motto::before{left:-112px}
+    .motto::after{right:-112px}
 
     @media (max-width: 980px){
       .motto{
@@ -159,7 +163,7 @@
 
     .topRight{
       justify-self:end;
-      opacity:.0; /* intentionally empty to keep center motto perfectly centered */
+      opacity:0;
       pointer-events:none;
     }
     @media (max-width: 980px){
@@ -169,17 +173,13 @@
     .page{
       max-width:var(--max);
       margin:0 auto;
-      padding:36px 18px 64px;
+      padding:36px 18px 70px;
     }
 
+    /* SINGLE COLUMN MAIN: cards use full width.
+       Your Scope becomes a section UNDER the cards (not on the right). */
     .layout{
-      display:grid;
-      grid-template-columns: 1fr 360px;
-      gap:18px;
-      align-items:start;
-    }
-    @media (max-width: 980px){
-      .layout{grid-template-columns: 1fr}
+      display:block;
     }
 
     .hero{
@@ -207,8 +207,8 @@
     }
     .search{
       position:relative;
-      flex:1 1 360px;
-      max-width:520px;
+      flex:1 1 420px;
+      max-width:640px;
     }
     .search input{
       width:100%;
@@ -231,16 +231,18 @@
       opacity:.65;
     }
 
+    /* Card grid: consistent columns, consistent heights, more breathing room */
     .grid{
       margin-top:18px;
       display:grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap:16px;
+      gap: var(--gap);
+      align-items: stretch;
     }
-    @media (max-width: 1100px){
+    @media (max-width: 1180px){
       .grid{grid-template-columns: repeat(2, minmax(0, 1fr))}
     }
-    @media (max-width: 640px){
+    @media (max-width: 720px){
       .grid{grid-template-columns: 1fr}
     }
 
@@ -252,8 +254,12 @@
       box-shadow: var(--shadow2);
       padding:18px 18px 16px;
       transition: transform .22s ease, border-color .22s ease, background .22s ease;
-      min-height: 280px;
       overflow:hidden;
+
+      /* KEY: make all cards equal-height and push CTAs to bottom */
+      min-height: 320px;
+      display:flex;
+      flex-direction:column;
     }
     .card:hover{
       transform: translateY(-2px);
@@ -303,8 +309,11 @@
       color:var(--muted);
       font-size:13.5px;
       line-height:1.8;
-      min-height:84px;
+
+      /* Keep description area consistent, but allow it to grow naturally */
+      min-height: 88px;
     }
+
     .divider{
       margin:14px 0 10px;
       height:1px;
@@ -323,13 +332,17 @@
       display:inline-flex; gap:8px; align-items:center;
     }
 
-    /* CTA buttons must be horizontal ALWAYS */
+    /* CTA buttons must be perfect alignment in every card.
+       The whole action row is pinned to the bottom via margin-top:auto */
+    .actionsWrap{
+      margin-top:auto;
+    }
     .actions{
       display:grid;
       grid-template-columns: 1fr 1fr;
       gap:10px;
+      align-items:stretch;
     }
-
     .btn{
       height:40px;
       border-radius:10px;
@@ -343,6 +356,10 @@
       cursor:pointer;
       transition: transform .18s ease, border-color .18s ease, background .18s ease;
       white-space:nowrap;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
     .btn:hover{
       transform: translateY(-1px);
@@ -364,18 +381,17 @@
       background: linear-gradient(180deg, rgba(234,217,179,.80), rgba(191,166,106,.80));
     }
 
-    /* Scope panel */
+    /* Your Scope section (moved under cards) */
+    .scopeSection{
+      margin-top:26px;
+    }
     .scope{
-      position:sticky;
-      top:86px;
+      width:100%;
       border-radius: var(--r20);
       border:1px solid rgba(255,255,255,.08);
       background: linear-gradient(180deg, rgba(23,26,34,.86), rgba(18,20,28,.68));
       box-shadow: var(--shadow2);
       overflow:hidden;
-    }
-    @media (max-width: 980px){
-      .scope{position:relative; top:auto}
     }
     .scopeHead{
       padding:16px 16px 12px;
@@ -397,10 +413,16 @@
     }
     .scopeBody{
       padding:12px 12px 14px;
-      display:flex; flex-direction:column; gap:10px;
-      max-height: 58vh;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:10px;
+      max-height: 48vh;
       overflow:auto;
     }
+    @media (max-width: 980px){
+      .scopeBody{grid-template-columns: 1fr}
+    }
+
     .scopeItem{
       display:flex; align-items:center; justify-content:space-between; gap:10px;
       padding:10px 10px;
@@ -421,6 +443,7 @@
       color: rgba(233,227,214,.72);
       cursor:pointer;
       transition: transform .18s ease, border-color .18s ease, background .18s ease;
+      display:flex; align-items:center; justify-content:center;
     }
     .scopeRemove:hover{
       transform: translateY(-1px);
@@ -430,9 +453,21 @@
     .scopeFoot{
       padding:12px 12px 14px;
       border-top:1px solid rgba(255,255,255,.08);
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .scopeHint{
+      color:var(--muted2);
+      font-size:12px;
+      line-height:1.6;
+      margin-right:auto;
+      min-width: 240px;
     }
     .scopeCTA{
-      width:100%;
+      width: min(460px, 100%);
       height:44px;
       border-radius:12px;
       border:1px solid rgba(191,166,106,.35);
@@ -447,12 +482,6 @@
     .scopeCTA:hover{
       transform: translateY(-1px);
       border-color: rgba(191,166,106,.55);
-    }
-    .scopeHint{
-      margin-top:10px;
-      color:var(--muted2);
-      font-size:12px;
-      line-height:1.6;
     }
 
     /* Drawer */
@@ -623,7 +652,6 @@
   <header class="topbar">
     <a class="brand" href="#" aria-label="Elite Consultant home">
       <div class="brandMark" aria-hidden="true">
-        <!-- Uses your repo logo file: logo.png -->
         <img src="logo.png" alt="" />
       </div>
 
@@ -661,38 +689,43 @@
         </div>
 
         <div id="grid" class="grid"></div>
-      </section>
 
-      <aside class="scope reveal">
-        <div class="scopeHead">
-          <h3 class="scopeTitle">
-            <span aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M7 3h10a2 2 0 0 1 2 2v16l-7-3-7 3V5a2 2 0 0 1 2-2Z" stroke="rgba(233,227,214,.75)" stroke-width="2" />
-              </svg>
-            </span>
-            Your Scope
-          </h3>
-          <div class="scopeSub">We tailor the final scope to your capacity.</div>
-        </div>
+        <!-- YOUR SCOPE MOVED UNDER CARDS -->
+        <div class="scopeSection reveal">
+          <div class="scope">
+            <div class="scopeHead">
+              <h3 class="scopeTitle">
+                <span aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M7 3h10a2 2 0 0 1 2 2v16l-7-3-7 3V5a2 2 0 0 1 2-2Z" stroke="rgba(233,227,214,.75)" stroke-width="2" />
+                  </svg>
+                </span>
+                Your Scope
+              </h3>
+              <div class="scopeSub">We tailor the final scope to your capacity.</div>
+            </div>
 
-        <div class="scopeBody" id="scopeList"></div>
+            <div class="scopeBody" id="scopeList"></div>
 
-        <div class="scopeFoot">
-          <button class="scopeCTA" id="requestBtn" type="button">
-            Request Proposal
-            <span aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M5 12h12" stroke="#141518" stroke-width="2" stroke-linecap="round"/>
-                <path d="M13 6l6 6-6 6" stroke="#141518" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </button>
-          <div class="scopeHint" id="scopeHint">
-            Tip: Select modules, then click Request Proposal to copy a proposal-ready outline.
+            <div class="scopeFoot">
+              <div class="scopeHint" id="scopeHint">
+                Tip: Select modules, then click Request Proposal to copy a proposal-ready outline.
+              </div>
+
+              <button class="scopeCTA" id="requestBtn" type="button">
+                Request Proposal
+                <span aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 12h12" stroke="#141518" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M13 6l6 6-6 6" stroke="#141518" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
-      </aside>
+
+      </section>
     </div>
   </main>
 
@@ -1002,11 +1035,13 @@
             <span>+ <strong>${countItems(m.optional)}</strong> add-ons</span>
           </div>
 
-          <div class="actions">
-            <button class="btn" type="button" data-action="details" data-id="${m.id}">View Details</button>
-            <button class="btn ${isSel ? "btnSelected" : "btnPrimary"}" type="button" data-action="toggle" data-id="${m.id}">
-              ${isSel ? "✓ Selected" : "Select"}
-            </button>
+          <div class="actionsWrap">
+            <div class="actions">
+              <button class="btn" type="button" data-action="details" data-id="${m.id}">View Details</button>
+              <button class="btn ${isSel ? "btnSelected" : "btnPrimary"}" type="button" data-action="toggle" data-id="${m.id}">
+                ${isSel ? "✓ Selected" : "Select"}
+              </button>
+            </div>
           </div>
         `;
 
@@ -1021,7 +1056,7 @@
 
       if(!items.length){
         scopeList.innerHTML = `
-          <div class="scopeItem" style="opacity:.85;">
+          <div class="scopeItem" style="opacity:.85; grid-column:1/-1;">
             <div class="scopeItemName">No modules selected yet.</div>
             <div style="width:28px;"></div>
           </div>
@@ -1122,15 +1157,15 @@
       const text =
         "Elite Consultant - Scope Request\n\n" +
         items.map((m, idx) => {
-          const must = (m.must || []).map(x => "  - " + x).join("\n");
-          const opt = (m.optional || []).map(x => "  - " + x).join("\n");
+          const must = (m.must || []).map(x => "  - " + x).join("\\n");
+          const opt = (m.optional || []).map(x => "  - " + x).join("\\n");
           return (
-            `${idx + 1}) ${m.name}\n` +
-            `What it provides:\n  ${m.provides}\n\n` +
-            `Included tasks:\n${must || "  - (none)"}\n\n` +
-            `Optional add-ons:\n${opt || "  - (none)"}\n`
+            `${idx + 1}) ${m.name}\\n` +
+            `What it provides:\\n  ${m.provides}\\n\\n` +
+            `Included tasks:\\n${must || "  - (none)"}\\n\\n` +
+            `Optional add-ons:\\n${opt || "  - (none)"}\\n`
           );
-        }).join("\n");
+        }).join("\\n");
 
       try{
         await navigator.clipboard.writeText(text);
